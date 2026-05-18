@@ -1,0 +1,21 @@
+# Build context: BE/ (repository root of Maven multi-module)
+FROM maven:3.9.9-eclipse-temurin-21-alpine AS build
+WORKDIR /workspace
+COPY pom.xml .
+COPY common ./common
+COPY api-gateway ./api-gateway
+COPY user-service ./user-service
+COPY mission-service ./mission-service
+COPY wallet-service ./wallet-service
+
+ARG SERVICE_MODULE=api-gateway
+RUN mvn -B -q -pl "${SERVICE_MODULE}" -am package -DskipTests \
+  && cp "${SERVICE_MODULE}/target/${SERVICE_MODULE}"-*.jar /workspace/app.jar
+
+FROM eclipse-temurin:21-jre-alpine
+WORKDIR /app
+RUN addgroup -S spring && adduser -S -G spring spring
+COPY --from=build /workspace/app.jar /app/app.jar
+USER spring:spring
+ENV JAVA_OPTS="-XX:MaxRAMPercentage=75.0"
+ENTRYPOINT ["sh", "-c", "exec java $JAVA_OPTS -jar /app/app.jar"]

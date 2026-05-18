@@ -1,0 +1,168 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOriginPatterns:
+              - "http://localhost:5173"
+              - "http://127.0.0.1:5173"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - PATCH
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
+            maxAge: 3600
+      routes:
+        # User Service — SockJS (/ws/**) + native STOMP WebSocket (/ws-stomp)
+        - id: user-service-websocket
+          uri: ${GATEWAY_USER_SERVICE_URI:http://localhost:8081}
+          predicates:
+            - Path=/ws/**
+        - id: user-service-ws-stomp
+          uri: ${GATEWAY_USER_SERVICE_URI:http://localhost:8081}
+          predicates:
+            - Path=/ws-stomp/**
+        # User Service Routes
+        - id: user-service-auth
+          uri: ${GATEWAY_USER_SERVICE_URI:http://localhost:8081}
+          predicates:
+            - Path=/api/common/**
+        # Public auth (verification email, etc.) — same controller prefix as user-service AuthPublicController
+        - id: user-service-public-auth
+          uri: ${GATEWAY_USER_SERVICE_URI:http://localhost:8081}
+          predicates:
+            - Path=/api/public/auth/**
+        - id: user-service-public
+          uri: ${GATEWAY_USER_SERVICE_URI:http://localhost:8081}
+          predicates:
+            - Path=/api/public/users/**
+        - id: user-service-public-notifications
+          uri: ${GATEWAY_USER_SERVICE_URI:http://localhost:8081}
+          predicates:
+            - Path=/api/public/notifications/**
+        - id: user-service-private
+          uri: ${GATEWAY_USER_SERVICE_URI:http://localhost:8081}
+          predicates:
+            - Path=/api/private/users/**
+        - id: user-service-private-notifications
+          uri: ${GATEWAY_USER_SERVICE_URI:http://localhost:8081}
+          predicates:
+            - Path=/api/private/notifications/**
+        - id: user-service-api-docs
+          uri: ${GATEWAY_USER_SERVICE_URI:http://localhost:8081}
+          predicates:
+            - Path=/user-service/api-docs/**
+          filters:
+            - RewritePath=/user-service/api-docs(?<segment>.*), /api-docs$\{segment}
+
+        # Mission Service Routes
+        - id: mission-service-missions-public
+          uri: ${GATEWAY_MISSION_SERVICE_URI:http://localhost:8082}
+          predicates:
+            - Path=/api/public/missions/**
+        - id: mission-service-missions-private
+          uri: ${GATEWAY_MISSION_SERVICE_URI:http://localhost:8082}
+          predicates:
+            - Path=/api/private/missions/**
+        - id: mission-service-user-missions-public
+          uri: ${GATEWAY_MISSION_SERVICE_URI:http://localhost:8082}
+          predicates:
+            - Path=/api/public/user-missions/**
+        - id: mission-service-user-missions-private
+          uri: ${GATEWAY_MISSION_SERVICE_URI:http://localhost:8082}
+          predicates:
+            - Path=/api/private/user-missions/**
+        - id: mission-service-achievements-public
+          uri: ${GATEWAY_MISSION_SERVICE_URI:http://localhost:8082}
+          predicates:
+            - Path=/api/public/achievements/**
+        - id: mission-service-achievements-private
+          uri: ${GATEWAY_MISSION_SERVICE_URI:http://localhost:8082}
+          predicates:
+            - Path=/api/private/achievements/**
+        - id: mission-service-user-achievements-public
+          uri: ${GATEWAY_MISSION_SERVICE_URI:http://localhost:8082}
+          predicates:
+            - Path=/api/public/user-achievements/**
+        - id: mission-service-user-achievements-private
+          uri: ${GATEWAY_MISSION_SERVICE_URI:http://localhost:8082}
+          predicates:
+            - Path=/api/private/user-achievements/**
+        - id: mission-service-api-docs
+          uri: ${GATEWAY_MISSION_SERVICE_URI:http://localhost:8082}
+          predicates:
+            - Path=/mission-service/api-docs/**
+          filters:
+            - RewritePath=/mission-service/api-docs(?<segment>.*), /api-docs$\{segment}
+
+        # Wallet Service Routes
+        - id: wallet-service-public
+          uri: ${GATEWAY_WALLET_SERVICE_URI:http://localhost:8083}
+          predicates:
+            - Path=/api/public/wallet/**
+        - id: wallet-service-private
+          uri: ${GATEWAY_WALLET_SERVICE_URI:http://localhost:8083}
+          predicates:
+            - Path=/api/private/wallet/**
+        - id: wallet-service-top-up-public
+          uri: ${GATEWAY_WALLET_SERVICE_URI:http://localhost:8083}
+          predicates:
+            - Path=/api/public/top-up/**
+        - id: wallet-service-webhook
+          uri: ${GATEWAY_WALLET_SERVICE_URI:http://localhost:8083}
+          predicates:
+            - Path=/api/common/webhook/**
+        - id: wallet-service-items-public
+          uri: ${GATEWAY_WALLET_SERVICE_URI:http://localhost:8083}
+          predicates:
+            - Path=/api/public/items/**
+        - id: wallet-service-items-private
+          uri: ${GATEWAY_WALLET_SERVICE_URI:http://localhost:8083}
+          predicates:
+            - Path=/api/private/items/**
+        - id: wallet-service-user-items-public
+          uri: ${GATEWAY_WALLET_SERVICE_URI:http://localhost:8083}
+          predicates:
+            - Path=/api/public/user-items/**
+        - id: wallet-service-user-items-private
+          uri: ${GATEWAY_WALLET_SERVICE_URI:http://localhost:8083}
+          predicates:
+            - Path=/api/private/user-items/**
+        - id: wallet-service-api-docs
+          uri: ${GATEWAY_WALLET_SERVICE_URI:http://localhost:8083}
+          predicates:
+            - Path=/wallet-service/api-docs/**
+          filters:
+            - RewritePath=/wallet-service/api-docs(?<segment>.*), /api-docs$\{segment}
+
+# Swagger Aggregation Configuration
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    urls:
+      - name: User Service
+        url: /user-service/api-docs
+      - name: Mission Service
+        url: /mission-service/api-docs
+      - name: Wallet Service
+        url: /wallet-service/api-docs
+
+# Actuator for health checks
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="001-create-mission-table" author="system">
+        <createTable tableName="mission">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="description" type="TEXT">
+                <constraints nullable="true"/>
+            </column>
+            <column name="mission_type" type="VARCHAR(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="document_link" type="VARCHAR(500)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="image_link" type="VARCHAR(500)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="from_date" type="TIMESTAMP">
+                <constraints nullable="true"/>
+            </column>
+            <column name="to_date" type="TIMESTAMP">
+                <constraints nullable="true"/>
+            </column>
+            <column name="mission_status" type="VARCHAR(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="points" type="DECIMAL(15, 2)">
+                <constraints nullable="true"/>
+            </column>
+            <!-- AbstractAuditingEntity fields -->
+            <column name="created_by" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="TIMESTAMP">
+                <constraints nullable="true"/>
+            </column>
+            <column name="last_modified_by" type="VARCHAR(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="last_modified_date" type="TIMESTAMP">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

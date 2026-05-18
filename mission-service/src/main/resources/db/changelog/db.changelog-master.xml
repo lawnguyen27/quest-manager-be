@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <include file="db/changelog/migrations/001-create-mission-table.xml"/>
+    <include file="db/changelog/migrations/002-create-user-mission-table.xml"/>
+    <include file="db/changelog/migrations/003-add-mission-video-url.xml"/>
+    <include file="db/changelog/migrations/004-create-achievement-table.xml"/>
+    <include file="db/changelog/migrations/005-create-user-achievement-table.xml"/>
+    <include file="db/changelog/migrations/006-insert-default-achievements.xml"/>
+
+</databaseChangeLog>

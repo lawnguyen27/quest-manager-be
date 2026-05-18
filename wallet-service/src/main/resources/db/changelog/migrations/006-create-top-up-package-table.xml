@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="006-create-top-up-package-table" author="system">
+        <createTable tableName="top_up_package">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="code" type="VARCHAR(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="amount" type="DECIMAL(15, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="points" type="DECIMAL(15, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <insert tableName="top_up_package">
+            <column name="code" value="PACKAGE_10K"/>
+            <column name="amount" valueNumeric="10000"/>
+            <column name="points" valueNumeric="10000"/>
+            <column name="is_active" valueBoolean="true"/>
+            <column name="created_at" valueDate="CURRENT_TIMESTAMP"/>
+            <column name="updated_at" valueDate="CURRENT_TIMESTAMP"/>
+        </insert>
+        <insert tableName="top_up_package">
+            <column name="code" value="PACKAGE_20K"/>
+            <column name="amount" valueNumeric="20000"/>
+            <column name="points" valueNumeric="22000"/>
+            <column name="is_active" valueBoolean="true"/>
+            <column name="created_at" valueDate="CURRENT_TIMESTAMP"/>
+            <column name="updated_at" valueDate="CURRENT_TIMESTAMP"/>
+        </insert>
+        <insert tableName="top_up_package">
+            <column name="code" value="PACKAGE_50K"/>
+            <column name="amount" valueNumeric="50000"/>
+            <column name="points" valueNumeric="55000"/>
+            <column name="is_active" valueBoolean="true"/>
+            <column name="created_at" valueDate="CURRENT_TIMESTAMP"/>
+            <column name="updated_at" valueDate="CURRENT_TIMESTAMP"/>
+        </insert>
+        <insert tableName="top_up_package">
+            <column name="code" value="PACKAGE_100K"/>
+            <column name="amount" valueNumeric="100000"/>
+            <column name="points" valueNumeric="115000"/>
+            <column name="is_active" valueBoolean="true"/>
+            <column name="created_at" valueDate="CURRENT_TIMESTAMP"/>
+            <column name="updated_at" valueDate="CURRENT_TIMESTAMP"/>
+        </insert>
+        <insert tableName="top_up_package">
+            <column name="code" value="PACKAGE_200K"/>
+            <column name="amount" valueNumeric="200000"/>
+            <column name="points" valueNumeric="240000"/>
+            <column name="is_active" valueBoolean="true"/>
+            <column name="created_at" valueDate="CURRENT_TIMESTAMP"/>
+            <column name="updated_at" valueDate="CURRENT_TIMESTAMP"/>
+        </insert>
+        <insert tableName="top_up_package">
+            <column name="code" value="PACKAGE_500K"/>
+            <column name="amount" valueNumeric="500000"/>
+            <column name="points" valueNumeric="600000"/>
+            <column name="is_active" valueBoolean="true"/>
+            <column name="created_at" valueDate="CURRENT_TIMESTAMP"/>
+            <column name="updated_at" valueDate="CURRENT_TIMESTAMP"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

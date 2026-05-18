@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  mysqldb:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mydemo
+      MYSQL_USER: sa
+      MYSQL_PASSWORD: '12345'
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+volumes:
+  mysql_data:
