@@ -5,9 +5,9 @@ spring:
   application:
     name: wallet-service
   datasource:
-    url: jdbc:mysql://localhost:3306/db_wallet?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-    username: root
-    password: 12345
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:db_wallet}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:12345}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
@@ -23,7 +23,7 @@ spring:
     enabled: true
   data:
     redis:
-      host: localhost
+      host: ${REDIS_HOST:localhost}
       port: 6379
   kafka:
     bootstrap-servers: localhost:9092
@@ -58,11 +58,11 @@ app:
 exchange:
   services:
     wallet-service:
-      url: http://localhost:8083
+      url: http://wallet-service.railway.internal:8083
     user-service:
-      url: http://localhost:8081
+      url: http://user-service.railway.internal:8081
     mission-service:
-      url: http://localhost:8082
+      url: http://mission-service.railway.internal:8082
 
 vnpay:
   tmn-code: "OJW84Z0A" # Placeholder Sandbox TmnCode
