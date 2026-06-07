@@ -8,7 +8,7 @@ COPY user-service ./user-service
 COPY mission-service ./mission-service
 COPY wallet-service ./wallet-service
 
-ARG SERVICE_MODULE=api-gateway
+ARG SERVICE_MODULE=user-service
 RUN mvn -B -q -pl "${SERVICE_MODULE}" -am package -DskipTests \
   && cp "${SERVICE_MODULE}/target/${SERVICE_MODULE}"-*.jar /workspace/app.jar
 
@@ -19,3 +19,4 @@ COPY --from=build /workspace/app.jar /app/app.jar
 USER spring:spring
 ENV JAVA_OPTS="-XX:MaxRAMPercentage=75.0"
 ENTRYPOINT ["sh", "-c", "exec java $JAVA_OPTS -jar /app/app.jar"]
+
